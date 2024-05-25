@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  postgres:
+    container_name: sass-company-postgres
+    image: bitnami/postgresql:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=sass-company
+    volumes:
+      - sass_company_pg_data:/bitnami/postgresql
+
+volumes:
+  sass_company_pg_data:
