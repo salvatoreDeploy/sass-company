@@ -28,7 +28,7 @@ export async function authenticateWithGithub(app: FastifyInstance) {
       const { githubCode } = request.body
 
       const githubOAuthURL = new URL(
-        'https://github.com/login/oauth/access_token',
+        `https://github.com/login/oauth/access_token`,
       )
 
       githubOAuthURL.searchParams.set('client_id', env.GITHUB_OAUTH_CLIENT_ID)
