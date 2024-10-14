@@ -12,6 +12,7 @@ import { FormEvent, useState, useTransition } from 'react'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { useFormState } from '@/hooks/use-form-state'
+import { useRouter } from 'next/navigation'
 
 export function SignInForm() {
   /* 
@@ -21,8 +22,13 @@ export function SignInForm() {
     ) 
   */
 
+  const router = useRouter()
+
   const [{ success, errors, message }, handleSubmit, isPending] = useFormState(
-    singinInWithEmailAndPassword
+    singinInWithEmailAndPassword,
+    () => {
+      router.push('/')
+    }
   )
 
   return (
