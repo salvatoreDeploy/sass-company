@@ -1,33 +1,27 @@
 'use client'
 
-import { Label } from '@/components/ui/label'
-import { singinInWithEmailAndPassword } from './actions'
-import { Input } from '@/components/ui/input'
-import Link from 'next/link'
-import Image from 'next/image'
-import githubIcon from '@/app/assets/github-icon.svg'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import { AlertTriangle, Loader2 } from 'lucide-react'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { useFormState } from '@/hooks/use-form-state'
+import Image from 'next/image'
+import Link from 'next/link'
+import githubIcon from '@/app/assets/github-icon.svg'
 import { useRouter } from 'next/navigation'
+import { useFormState } from '@/hooks/use-form-state'
+import { signWithEmailAndPassword } from '@/http/sign-in-with-email-and-password'
+import { signUpAction } from './actions'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { AlertTriangle, Loader2 } from 'lucide-react'
 import { signInWithGithub } from '../action'
 
-export function SignInForm() {
-  /* 
-    const [{ success, message, errors }, formAction, isPending] = useActionState(
-    singinInWithEmailAndPassword,
-    { success: false, message: null, errors: null }
-    ) 
-  */
-
+export function SignUpForm() {
   const router = useRouter()
 
-  const [{ success, errors, message }, handleSubmit, isPending] = useFormState(
-    singinInWithEmailAndPassword,
+  const [{ errors, message, success }, handleSubmit, isPending] = useFormState(
+    signUpAction,
     () => {
-      router.push('/')
+      router.push('/auth/sign-in')
     }
   )
 
@@ -45,8 +39,20 @@ export function SignInForm() {
         )}
 
         <div className="space-y-1">
+          <Label htmlFor="name">Name</Label>
+          <Input name="name" id="name" />
+
+          {errors?.name && (
+            <p className="flex items-center justify-start text-xs font-medium text-red-500 dark:text-red-400">
+              <AlertTriangle className="size-3" />
+              {errors.name[0]}
+            </p>
+          )}
+        </div>
+
+        <div className="space-y-1">
           <Label htmlFor="email">E-mail</Label>
-          <Input name="email" type="text" id="email" />
+          <Input name="email" type="email" id="email" />
 
           {errors?.email && (
             <p className="flex items-center justify-start text-xs font-medium text-red-500 dark:text-red-400">
@@ -59,31 +65,41 @@ export function SignInForm() {
         <div className="space-y-1">
           <Label htmlFor="password">Password</Label>
           <Input name="password" type="password" id="password" />
+
           {errors?.password && (
             <p className="flex items-center justify-start text-xs font-medium text-red-500 dark:text-red-400">
               <AlertTriangle className="size-3" />
               {errors.password[0]}
             </p>
           )}
+        </div>
 
-          <Link
-            href="/auth/forgot-password"
-            className="text-xs font-medium text-foreground hover:underline"
-          >
-            Forgot your password?
-          </Link>
+        <div className="space-y-1">
+          <Label htmlFor="password_confirmation">Confirm your password</Label>
+          <Input
+            name="password_confirmation"
+            type="password"
+            id="password_confirmation"
+          />
+
+          {errors?.password_confirmation && (
+            <p className="flex items-center justify-start text-xs font-medium text-red-500 dark:text-red-400">
+              <AlertTriangle className="size-3" />
+              {errors.password_confirmation[0]}
+            </p>
+          )}
         </div>
 
         <Button type="submit" className="w-full" disabled={isPending}>
           {isPending ? (
             <Loader2 className="size-4 animate-spin" />
           ) : (
-            'Sign in with e-mail'
+            'Create Account'
           )}
         </Button>
 
         <Button variant="link" className="w-full" size="sm" asChild>
-          <Link href="/auth/sign-up">Create new account</Link>
+          <Link href="/auth/sign-in">Already registered? Sign in</Link>
         </Button>
       </form>
 
