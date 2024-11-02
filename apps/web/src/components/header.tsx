@@ -1,7 +1,7 @@
 import sassIcon from '@/assets/sass-icon.svg'
 import Image from 'next/image'
 import { ProfileButton } from './profile-button'
-import { OrganizationSwitcher } from './organiation-switcher'
+import { OrganizationSwitcher } from './organization-switcher'
 import { Slash } from 'lucide-react'
 
 export function Header() {
