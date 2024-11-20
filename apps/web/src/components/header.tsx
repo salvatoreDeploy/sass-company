@@ -6,6 +6,7 @@ import { Slash } from 'lucide-react'
 import { ability } from '@/auth/auth'
 import { Separator } from './ui/separator'
 import { ThemeSwitcher } from './theme/theme-switcher'
+import { ProjectSwtcher } from './project-swtcher'
 
 export async function Header() {
   const permissions = await ability()
@@ -19,7 +20,7 @@ export async function Header() {
 
         <OrganizationSwitcher />
 
-        {permissions?.can('get', 'Project') && <p>Projetos</p>}
+        {permissions?.can('get', 'Project') && <ProjectSwtcher />}
       </div>
 
       <div className="flex items-center gap-4">
