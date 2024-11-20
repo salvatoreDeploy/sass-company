@@ -30,7 +30,7 @@ export async function OrganizationSwitcher() {
         >
           {currentOrganizationActivity ? (
             <>
-              <Avatar className="mr-2 size-5">
+              <Avatar className="size-5">
                 {currentOrganizationActivity.avatarUrl && (
                   <AvatarImage src={currentOrganizationActivity.avatarUrl} />
                 )}
