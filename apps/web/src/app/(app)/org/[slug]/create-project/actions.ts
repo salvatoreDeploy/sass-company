@@ -1,5 +1,7 @@
 'use server'
 
+import { getCurrentOrganization } from '@/auth/auth'
+import { createProject } from '@/http/create-project'
 import { HTTPError } from 'ky'
 import { z } from 'zod'
 
@@ -26,9 +28,9 @@ export async function createProjectAction(data: FormData) {
   const { name, description } = result.data
 
   try {
-    /* await createProject({
-      name, domain, shouldAttachUserByDomain
-    }) */
+    await createProject({
+      name, description, org: getCurrentOrganization()!
+    })
 
   } catch (err) {
     if (err instanceof HTTPError) {
