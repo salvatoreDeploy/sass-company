@@ -10,10 +10,20 @@ import { createProjectAction } from './actions'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
+import { useParams } from 'next/navigation'
+import { queryClient } from '@/lib/react-query'
 
 export function ProjectForm() {
-  const [{ errors, message, success }, handleSubmit, isPending] =
-    useFormState(createProjectAction)
+  const { slug: org } = useParams<{ slug: string }>()
+
+  const [{ errors, message, success }, handleSubmit, isPending] = useFormState(
+    createProjectAction,
+    () => {
+      queryClient.invalidateQueries({
+        queryKey: [org, 'projects'],
+      })
+    }
+  )
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
