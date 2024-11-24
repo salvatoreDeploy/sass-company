@@ -1,4 +1,4 @@
-import { ability } from '@/auth/auth'
+import { ability, getCurrentOrganization } from '@/auth/auth'
 import {
   Card,
   CardContent,
@@ -8,8 +8,13 @@ import {
 } from '@/components/ui/card'
 import { OrganizationForm } from '../../organization-form'
 import { ShutdownOrganiztaionButton } from './shutdown-organization-button'
+import { getDetailsOrganization } from '@/http/get-details-organization'
 
 export default async function Project() {
+  const currentOrg = getCurrentOrganization()
+
+  const { organization } = await getDetailsOrganization(currentOrg!)
+
   const permissions = await ability()
 
   const canUpdateOrganization = permissions?.can('update', 'Organization')
@@ -30,32 +35,36 @@ export default async function Project() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <OrganizationForm />
+              <OrganizationForm
+                isUpdate
+                initialData={{
+                  name: organization.name,
+                  domain: organization.domain,
+                  shouldAttachUserByDomain:
+                    organization.shouldAttachUsersByDomain,
+                }}
+              />
+            </CardContent>
+          </Card>
+        )}
+
+        {canGetBilling && <h1 className="text-2xl font-bold">Billing</h1>}
+
+        {canShutdownOrganization && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Shutdown organization</CardTitle>
+              <CardDescription>
+                This wil delete all organization all projetcs. You cannot undo
+                this action
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ShutdownOrganiztaionButton />
             </CardContent>
           </Card>
         )}
       </div>
-
-      {canGetBilling && <h1 className="text-2xl font-bold">Billing</h1>}
-
-      {canUpdateOrganization && (
-        <div className="space-y-4">
-          {canUpdateOrganization && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Shutdown organization</CardTitle>
-                <CardDescription>
-                  This wil delete all organization all projetcs. You cannot undo
-                  this action
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ShutdownOrganiztaionButton />
-              </CardContent>
-            </Card>
-          )}
-        </div>
-      )}
     </div>
   )
 }

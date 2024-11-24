@@ -9,12 +9,27 @@ import { useRouter } from 'next/router'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { AlertTriangle, Loader2 } from 'lucide-react'
-import { createOrganizationAction } from '../create-organization/actions'
+import {
+  createOrganizationAction,
+  OrganizationSchema,
+  updateOrganizationAction,
+} from './actions'
 
-export function OrganizationForm() {
-  const [{ errors, message, success }, handleSubmit, isPending] = useFormState(
-    createOrganizationAction
-  )
+interface OrganizationFormProps {
+  isUpdate?: boolean
+  initialData: OrganizationSchema
+}
+
+export function OrganizationForm({
+  isUpdate = false,
+  initialData,
+}: OrganizationFormProps) {
+  const formAction = isUpdate
+    ? updateOrganizationAction
+    : createOrganizationAction
+
+  const [{ errors, message, success }, handleSubmit, isPending] =
+    useFormState(formAction)
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -40,7 +55,7 @@ export function OrganizationForm() {
 
       <div className="space-y-1">
         <Label htmlFor="name">Organization Name</Label>
-        <Input name="name" id="name" />
+        <Input name="name" id="name" defaultValue={initialData?.name} />
 
         {errors?.name && (
           <p className="flex items-center justify-start text-xs font-medium text-red-500 dark:text-red-400">
@@ -58,6 +73,7 @@ export function OrganizationForm() {
           id="domain"
           inputMode="url"
           placeholder="example.com"
+          defaultValue={initialData?.domain ?? undefined}
         />
 
         {errors?.domain && (
@@ -74,6 +90,7 @@ export function OrganizationForm() {
             name="shouldAttachUserByDomain"
             id="shouldAttachUserByDomain"
             className="translate-y-0.5"
+            defaultChecked={initialData.shouldAttachUserByDomain}
           />
           <label htmlFor="shouldAttachUserByDomain" className=" space-y-1">
             <span className="text-sm font-medium leading-none">
