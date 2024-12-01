@@ -51,7 +51,7 @@ export async function createInvite(app: FastifyInstance) {
           )
         }
 
-        const [, doamin] = email
+        const [, doamin] = email.split('@')
 
         if (
           organization.shouldAttachUsersByDomain &&
