@@ -6,8 +6,9 @@ import { getDetailsOrganization } from '@/http/get-details-organization'
 import { getMembers } from '@/http/get-member-list'
 import { getMembership } from '@/http/get-membership'
 import { organizationSchema } from '@saas-company/auth'
-import { ArrowLeftRight, Crown } from 'lucide-react'
+import { ArrowLeftRight, Crown, UserMinus } from 'lucide-react'
 import Image from 'next/image'
+import { removeMemberAction } from './actions'
 
 export async function MembersList() {
   const permissions = await ability()
@@ -73,6 +74,23 @@ export async function MembersList() {
                           <ArrowLeftRight className="mr-2 size-4" />
                           Transfer ownership
                         </Button>
+                      )}
+
+                      {permissions?.can('delete', 'User') && (
+                        <form action={removeMemberAction.bind(null, member.id)}>
+                          <Button
+                            disabled={
+                              member.userId === membership.userId ||
+                              member.userId === organization.ownerId
+                            }
+                            type="submit"
+                            size={'sm'}
+                            variant={'destructive'}
+                          >
+                            <UserMinus className="mr-2 size-4" />
+                            Remove member
+                          </Button>
+                        </form>
                       )}
                     </div>
                   </TableCell>
