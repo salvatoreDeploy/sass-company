@@ -21,6 +21,7 @@ import { ResetPassword } from './routes/Authtentication/reset-password'
 import { getOrganizationBilling } from './routes/Billing/get-billing-organization'
 import { acceptInvite } from './routes/Invites/accept-invite'
 import { createInvite } from './routes/Invites/create-invite'
+import { fetchAllOrganizationInvite } from './routes/Invites/fetchAll-organization-invites'
 import { getPendingInvite } from './routes/Invites/get-pending-invite'
 import { getDetailsInvite } from './routes/Invites/invite-details'
 import { rejectInvite } from './routes/Invites/reject-invite'
@@ -125,6 +126,7 @@ app.register(removeOrganizationMembers)
  * Invites
  */
 
+app.register(fetchAllOrganizationInvite)
 app.register(createInvite)
 app.register(getDetailsInvite)
 

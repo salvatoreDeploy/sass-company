@@ -9,11 +9,11 @@ import { getUserPermissions } from '@/utils/get-user-permissions'
 
 import { UnathorizedResquestError } from '../_erros/unathorized-error'
 
-export async function createInvite(app: FastifyInstance) {
+export async function fetchAllOrganizationInvite(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .register(middlewareAuth)
-    .post(
+    .get(
       '/organization/:slug/invite',
       {
         schema: {
