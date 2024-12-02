@@ -6,7 +6,7 @@ export default async function Home() {
       <Header />
 
       <main className="mx-auto w-full max-w-[1200px] space-y-4">
-        <h1>Projetos | Texto para criar sua orgaização</h1>
+        <h1>Projetos | Texto para criar sua Organização</h1>
       </main>
     </div>
   )
