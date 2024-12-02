@@ -16,7 +16,7 @@ export default async function Projects() {
 
         {permissions?.can('create', 'Project') && (
           <Button size="sm" asChild>
-            <Link href={`organization/${currentOrg}/project`}>
+            <Link href={`/org/${currentOrg}/create-project`}>
               <Plus className="mr-2 size-4" />
               Create Project
             </Link>

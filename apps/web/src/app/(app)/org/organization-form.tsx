@@ -17,7 +17,7 @@ import {
 
 interface OrganizationFormProps {
   isUpdate?: boolean
-  initialData: OrganizationSchema
+  initialData?: OrganizationSchema
 }
 
 export function OrganizationForm({
@@ -90,7 +90,7 @@ export function OrganizationForm({
             name="shouldAttachUserByDomain"
             id="shouldAttachUserByDomain"
             className="translate-y-0.5"
-            defaultChecked={initialData.shouldAttachUserByDomain}
+            defaultChecked={initialData?.shouldAttachUserByDomain}
           />
           <label htmlFor="shouldAttachUserByDomain" className=" space-y-1">
             <span className="text-sm font-medium leading-none">

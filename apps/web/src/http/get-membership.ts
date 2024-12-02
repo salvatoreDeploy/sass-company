@@ -18,4 +18,4 @@ export async function getMembership(org: string) {
     .json<GetMembershipResponse>()
 
   return result
-}
+} 
