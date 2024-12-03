@@ -4,6 +4,7 @@ import { signWithEmailAndPassword } from '@/http/sign-in-with-email-and-password
 import { HTTPError } from 'ky'
 import { z } from 'zod'
 import { cookies } from 'next/headers'
+import { acceptInvite } from '@/http/accept-invite'
 
 const signInSchema = z.object({
   email: z.string().email({ message: 'Please, provide valid e-mail address' }),
@@ -35,6 +36,15 @@ export async function singinInWithEmailAndPassword(data: FormData) {
       path: '/',
       maxAge: 60 * 60 * 24 * 7, // 7 days
     })
+
+    const inviteId = cookies().get('inviteId')?.value
+
+    if (inviteId) {
+      try {
+        await acceptInvite({ inviteId })
+        cookies().delete('inviteId')
+      } catch {}
+    }
   } catch (err) {
     if (err instanceof HTTPError) {
       const { message } = await err.response.json<KyResponseJson>()
