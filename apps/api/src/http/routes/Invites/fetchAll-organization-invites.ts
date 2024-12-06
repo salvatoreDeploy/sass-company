@@ -79,7 +79,7 @@ export async function fetchAllOrganizationInvite(app: FastifyInstance) {
           },
         })
 
-        return reply.status(200).send({ invites })
+        return reply.status(201).send({ invites })
       },
     )
 }

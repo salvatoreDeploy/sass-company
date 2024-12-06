@@ -17,7 +17,7 @@ export async function getPendingInvite(app: FastifyInstance) {
       {
         schema: {
           tags: ['Actions Members Invites'],
-          summary: 'Accept in a invite',
+          summary: 'Get all user pending invites',
           security: [{ bearerAuth: [] }],
           response: {
             201: z.object({
@@ -80,7 +80,7 @@ export async function getPendingInvite(app: FastifyInstance) {
           },
         })
 
-        return reply.status(204).send({ invites })
+        return reply.status(201).send({ invites })
       },
     )
 }
